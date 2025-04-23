@@ -13,14 +13,19 @@ const app = express()
 const server = http.createServer(app)
 const io = new Server(server)
 
+// Socket.IO Logic
+io.on('connection', (socket) => {
+  let currentSession = null
+
+
 // Middleware
 app.use(express.json())
 app.use('/api/game', gameRoutes)
 app.use(express.static('public'))
 
-// Socket.IO Logic
-io.on('connection', (socket) => {
-  let currentSession = null
+
+
+
 
   // Helper function to update the session state for all players
   const updateSessionState = (session) => {

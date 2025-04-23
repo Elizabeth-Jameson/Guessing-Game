@@ -1,1 +1,0 @@
-this is a guessing game that require two or more players.
