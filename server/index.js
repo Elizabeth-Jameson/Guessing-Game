@@ -2,6 +2,7 @@
 const express = require('express')
 const http = require('http')
 const { Server } = require('socket.io')
+const path = ('path')
 const { sessions } = require('./middleware/gameMiddleware')
 const {
   createSession,
@@ -18,6 +19,10 @@ const io = new Server(server)
 app.use(express.json())
 app.use('/api/game', gameRoutes)
 app.use(express.static('public'))
+
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'index.html'))
+})
 
 // Socket.IO Logic
 io.on('connection', (socket) => {
