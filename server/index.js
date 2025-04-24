@@ -1,3 +1,4 @@
+
 const express = require('express')
 const http = require('http')
 const { Server } = require('socket.io')
@@ -13,19 +14,14 @@ const app = express()
 const server = http.createServer(app)
 const io = new Server(server)
 
-// Socket.IO Logic
-io.on('connection', (socket) => {
-  let currentSession = null
-
-
 // Middleware
 app.use(express.json())
 app.use('/api/game', gameRoutes)
 app.use(express.static('public'))
 
-
-
-
+// Socket.IO Logic
+io.on('connection', (socket) => {
+  let currentSession = null
 
   // Helper function to update the session state for all players
   const updateSessionState = (session) => {
@@ -114,5 +110,5 @@ app.use(express.static('public'))
 })
 
 // Start the server
-const PORT = process.env.PORT || 4020
-server.listen(PORT, () => console.log(`Server running at http://localhost:${PORT}`))
+const PORT = process.env.PORT || 6030
+server.listen(PORT, () => console.log(`Server running on port ${PORT}`))
