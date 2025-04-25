@@ -2,13 +2,13 @@ const express = require('express')
 const path = require('path')
 const http = require('http')
 const { Server } = require('socket.io')
-const { sessions } = require('./middleware/gameMiddleware')
+const { sessions } = require('./server/middleware/gameMiddleware')
 const {
   createSession,
   joinSession,
   handleGuess,
-} = require('./controllers/gameController')
-const gameRoutes = require('./routes/gameRoutes')
+} = require('./server/controllers/gameController')
+const gameRoutes = require('./server/routes/gameRoutes')
 
 const app = express()
 const server = http.createServer(app)
