@@ -14,20 +14,12 @@ const app = express()
 const server = http.createServer(app)
 const io = new Server(server)
 
-// Error handling middleware
-app.use((err, req, res, next) => {
-  console.error(err.stack)
-  res.status(500).json({ error: 'Something went wrong!' })
-})
+
 
 // Middleware
 app.use(express.json())
 app.use('/api/game', gameRoutes)
-app.use(express.static('public'))
-
-app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, 'public', 'index.html'))
-})
+app.use(express.static('public'));
 
 // Socket.IO Logic
 io.on('connection', (socket) => {
@@ -117,6 +109,18 @@ io.on('connection', (socket) => {
     if (session.players.size === 0) sessions.delete(currentSession)
     updateSessionState(session) // Update the session state for all players
   })
+})
+
+
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'index.html'));
+});
+
+
+// Error handling middleware
+app.use((err, req, res, next) => {
+  console.error(err.stack)
+  res.status(500).json({ error: 'Something went wrong!' })
 })
 
 // Start the server
