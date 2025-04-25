@@ -1,8 +1,7 @@
-
 const express = require('express')
+const path = require('path')
 const http = require('http')
 const { Server } = require('socket.io')
-const path = ('path')
 const { sessions } = require('./middleware/gameMiddleware')
 const {
   createSession,
@@ -14,6 +13,12 @@ const gameRoutes = require('./routes/gameRoutes')
 const app = express()
 const server = http.createServer(app)
 const io = new Server(server)
+
+// Error handling middleware
+app.use((err, req, res, next) => {
+  console.error(err.stack)
+  res.status(500).json({ error: 'Something went wrong!' })
+})
 
 // Middleware
 app.use(express.json())
@@ -116,4 +121,10 @@ io.on('connection', (socket) => {
 
 // Start the server
 const PORT = process.env.PORT || 6030
-server.listen(PORT, () => console.log(`Server running on port ${PORT}`))
+server.listen(PORT, (err) => {
+  if (err) {
+    console.error('Error starting server:', err)
+    process.exit(1)
+  }
+  console.log(`Server running on port ${PORT}`)
+})
